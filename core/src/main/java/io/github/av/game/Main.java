@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,6 +22,8 @@ public class Main extends ApplicationAdapter {
     SpriteBatch spriteBatch;
     FitViewport viewport;
 
+    Sprite bucketSprite; // Declare a new Sprite variable
+
     @Override
     public void create() {
         backgroundTexture = new Texture("background.png");
@@ -31,6 +34,9 @@ public class Main extends ApplicationAdapter {
 
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
+
+        bucketSprite = new Sprite(bucketTexture); // Initialize the sprite based on the texture
+        bucketSprite.setSize(1, 1); // Define the size of the sprite
     }
 
     @Override
@@ -64,7 +70,8 @@ public class Main extends ApplicationAdapter {
         float worldHeight = viewport.getWorldHeight();
 
         spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight); // draw the background
-        spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // and then draw the bucket with width/height of 1 meter
+        // spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // and then draw the bucket with width/height of 1 meter
+        bucketSprite.draw(spriteBatch); // Sprites have their own draw method
 
 
         spriteBatch.end();
