@@ -4,6 +4,7 @@ drop.mp3
 drop.png
 libgdx.png
 music.mp3
+pumpkin.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt
