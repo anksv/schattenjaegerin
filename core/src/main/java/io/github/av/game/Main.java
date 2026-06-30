@@ -63,8 +63,9 @@ public class Main extends ApplicationAdapter {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // draw the bucket with width/height of 1 meter
         spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight); // draw the background
+        spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // and then draw the bucket with width/height of 1 meter
+
 
         spriteBatch.end();
     }
