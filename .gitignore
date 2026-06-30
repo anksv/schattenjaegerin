@@ -2,6 +2,8 @@
 .gradle/
 gradle-app.setting
 /build/
+/build/reports/
+/build/reports/problems/
 /android/build/
 /core/build/
 /lwjgl2/build/
