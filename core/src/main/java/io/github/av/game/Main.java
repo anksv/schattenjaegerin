@@ -57,8 +57,15 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+
         spriteBatch.begin();
+
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
         spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // draw the bucket with width/height of 1 meter
+        spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight); // draw the background
+
         spriteBatch.end();
     }
 
