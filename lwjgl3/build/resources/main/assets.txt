@@ -1,4 +1,3 @@
-amaaya.png
 background.png
 bucket.png
 drop.mp3

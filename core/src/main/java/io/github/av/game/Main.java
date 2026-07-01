@@ -56,10 +56,19 @@ public class Main extends ApplicationAdapter {
         float speed = 4f;
         float delta = Gdx.graphics.getDeltaTime();
 
+        // Keyboard inputs
+        // Horizontal movement (X-Axis)
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             bucketSprite.translateX(speed * delta); // move the bucket right
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             bucketSprite.translateX(-speed * delta); // move the bucket left
+        }
+
+        // Vertical movement (Y-Axis)
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            bucketSprite.translateY(speed * delta); // move the bucket up
+        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            bucketSprite.translateY(-speed * delta); // move the bucket down
         }
     }
 
