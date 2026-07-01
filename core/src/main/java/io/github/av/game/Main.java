@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -25,6 +26,8 @@ public class Main extends ApplicationAdapter {
 
     Sprite bucketSprite; // Declare a new Sprite variable
 
+    Vector2 touchPos;
+
     @Override
     public void create() {
         backgroundTexture = new Texture("background.png");
@@ -38,6 +41,8 @@ public class Main extends ApplicationAdapter {
 
         bucketSprite = new Sprite(bucketTexture); // Initialize the sprite based on the texture
         bucketSprite.setSize(1, 1); // Define the size of the sprite
+
+        touchPos = new Vector2();
     }
 
     @Override
@@ -69,6 +74,14 @@ public class Main extends ApplicationAdapter {
             bucketSprite.translateY(speed * delta); // move the bucket up
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             bucketSprite.translateY(-speed * delta); // move the bucket down
+        }
+
+        // Touch input
+        if (Gdx.input.isTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY()); // Get where the touch happened on screen
+            viewport.unproject(touchPos); // Convert the units to the world units of the viewport
+            bucketSprite.setCenterX(touchPos.x); // Change the horizontally centered position of the bucket
+            bucketSprite.setCenterY(touchPos.y);
         }
     }
 
