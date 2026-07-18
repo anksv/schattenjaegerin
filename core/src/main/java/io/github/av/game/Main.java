@@ -58,6 +58,10 @@ public class Main extends ApplicationAdapter {
         bucketRectangle = new Rectangle();
         dropRectangle = new Rectangle();
 
+        music.setLooping(true);
+        music.setVolume(.5f);
+        music.play();
+
     }
 
     @Override
@@ -135,6 +139,7 @@ public class Main extends ApplicationAdapter {
             if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
             else if (bucketRectangle.overlaps(dropRectangle)) { // Check if the bucket overlaps the drop
                 dropSprites.removeIndex(i); // Remove the drop
+                dropSound.play(); // Play the sound
             }
         }
 
