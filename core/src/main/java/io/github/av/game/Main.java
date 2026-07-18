@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -29,6 +30,10 @@ public class Main extends ApplicationAdapter {
 
     Vector2 touchPos;
 
+    Array<Sprite> dropSprites;
+
+    float dropTimer;
+
     @Override
     public void create() {
         backgroundTexture = new Texture("background.png");
@@ -44,6 +49,8 @@ public class Main extends ApplicationAdapter {
         bucketSprite.setSize(1, 1); // Define the size of the sprite
 
         touchPos = new Vector2();
+        dropSprites = new Array<>();
+
     }
 
     @Override
@@ -100,6 +107,26 @@ public class Main extends ApplicationAdapter {
         bucketSprite.setX(MathUtils.clamp(bucketSprite.getX(), 0, worldWidth - bucketWidth));
         bucketSprite.setY(MathUtils.clamp(bucketSprite.getY(), 0, worldHeight - bucketHeight));
 
+        float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
+
+        // Loop through the sprites backwards to prevent out of bounds errors
+        for (int i = dropSprites.size - 1; i >= 0; i--) {
+            Sprite dropSprite = dropSprites.get(i); // Get the sprite from the list
+            float dropWidth = dropSprite.getWidth();
+            float dropHeight = dropSprite.getHeight();
+
+            dropSprite.translateY(-2f * delta);
+
+            // if the top of the drop goes below the bottom of the view, remove it
+            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+        }
+
+        dropTimer += delta; // Adds the current delta to the timer
+        if (dropTimer > 1f) { // Check if it has been more than a second
+            dropTimer = 0; // Reset the timer
+            createDroplet(); // Create the droplet
+        }
+
     }
 
     private void draw() {
@@ -116,12 +143,36 @@ public class Main extends ApplicationAdapter {
         // spriteBatch.draw(bucketTexture, 0, 0, 1, 1); // and then draw the bucket with width/height of 1 meter
         bucketSprite.draw(spriteBatch); // Sprites have their own draw method
 
+        // draw each sprite
+        for (Sprite dropSprite : dropSprites) {
+            dropSprite.draw(spriteBatch);
+        }
+
 
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
+
+    }
+
+    private void createDroplet() {
+        // create local variables for convenience
+        float dropWidth = 1;
+        float dropHeight = 1;
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        Sprite dropSprite = new Sprite(dropTexture);
+        dropSprite.setSize(dropWidth, dropHeight);
+        dropSprite.setX(MathUtils.random(0f, worldWidth - dropWidth)); // Randomize the drop's x position
+        dropSprite.setY(worldHeight);
+        dropSprites.add(dropSprite);
+    }
+
+    @Override
+    public void pause() {
 
     }
 }
