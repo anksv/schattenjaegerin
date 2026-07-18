@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -34,6 +35,9 @@ public class Main extends ApplicationAdapter {
 
     float dropTimer;
 
+    Rectangle bucketRectangle;
+    Rectangle dropRectangle;
+
     @Override
     public void create() {
         backgroundTexture = new Texture("background.png");
@@ -50,6 +54,9 @@ public class Main extends ApplicationAdapter {
 
         touchPos = new Vector2();
         dropSprites = new Array<>();
+
+        bucketRectangle = new Rectangle();
+        dropRectangle = new Rectangle();
 
     }
 
@@ -105,9 +112,13 @@ public class Main extends ApplicationAdapter {
 
         // Clamp x to values between 0 and worldWidth
         bucketSprite.setX(MathUtils.clamp(bucketSprite.getX(), 0, worldWidth - bucketWidth));
-        bucketSprite.setY(MathUtils.clamp(bucketSprite.getY(), 0, worldHeight - bucketHeight));
+
+        // bucketSprite.setY(MathUtils.clamp(bucketSprite.getY(), 0, worldHeight - bucketHeight));
 
         float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
+
+        // Apply the bucket position and size to the bucketRectangle
+        bucketRectangle.set(bucketSprite.getX(), bucketSprite.getY(), bucketWidth, bucketHeight);
 
         // Loop through the sprites backwards to prevent out of bounds errors
         for (int i = dropSprites.size - 1; i >= 0; i--) {
@@ -117,8 +128,14 @@ public class Main extends ApplicationAdapter {
 
             dropSprite.translateY(-2f * delta);
 
+            // Apply the drop position and size to the dropRectangle
+            dropRectangle.set(dropSprite.getX(), dropSprite.getY(), dropWidth, dropHeight);
+
             // if the top of the drop goes below the bottom of the view, remove it
             if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+            else if (bucketRectangle.overlaps(dropRectangle)) { // Check if the bucket overlaps the drop
+                dropSprites.removeIndex(i); // Remove the drop
+            }
         }
 
         dropTimer += delta; // Adds the current delta to the timer
