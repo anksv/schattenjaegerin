@@ -1,9 +1,9 @@
-background.png
-bucket.png
-drop.mp3
-drop.png
+Man.png
+Spider.png
+crawl.mp3
+halloween-background.png
+halloween.mp3
 libgdx.png
-music.mp3
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt

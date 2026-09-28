@@ -19,9 +19,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
     Texture backgroundTexture;
-    Texture bucketTexture;
-    Texture dropTexture;
-    Sound dropSound;
+    Texture manTexture;
+    Texture spiderTexture;
+    Sound crawlSound;
     Music music;
 
     SpriteBatch spriteBatch;
@@ -40,16 +40,16 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
-        backgroundTexture = new Texture("background.png");
-        bucketTexture = new Texture("bucket.png");
-        dropTexture = new Texture("drop.png");
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        backgroundTexture = new Texture("halloween-background.png");
+        manTexture = new Texture("Man.png");
+        spiderTexture = new Texture("Spider.png");
+        crawlSound = Gdx.audio.newSound(Gdx.files.internal("crawl.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("halloween.mp3"));
 
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
 
-        bucketSprite = new Sprite(bucketTexture); // Initialize the sprite based on the texture
+        bucketSprite = new Sprite(manTexture); // Initialize the sprite based on the texture
         bucketSprite.setSize(1, 1); // Define the size of the sprite
 
         touchPos = new Vector2();
@@ -139,7 +139,7 @@ public class Main extends ApplicationAdapter {
             if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
             else if (bucketRectangle.overlaps(dropRectangle)) { // Check if the bucket overlaps the drop
                 dropSprites.removeIndex(i); // Remove the drop
-                dropSound.play(); // Play the sound
+                crawlSound.play(); // Play the sound
             }
         }
 
@@ -186,7 +186,7 @@ public class Main extends ApplicationAdapter {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        Sprite dropSprite = new Sprite(dropTexture);
+        Sprite dropSprite = new Sprite(spiderTexture);
         dropSprite.setSize(dropWidth, dropHeight);
         dropSprite.setX(MathUtils.random(0f, worldWidth - dropWidth)); // Randomize the drop's x position
         dropSprite.setY(worldHeight);
