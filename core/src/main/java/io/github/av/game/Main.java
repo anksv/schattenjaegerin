@@ -179,6 +179,9 @@ public class Main extends ApplicationAdapter {
 
     }
 
+    /**
+     * Creates a new droplet and adds it to the dropSprites list.
+     */
     private void createDroplet() {
         // create local variables for convenience
         float dropWidth = 1;
